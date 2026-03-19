@@ -53,11 +53,11 @@ const App = () => {
 
         <h1 className=' text-5xl font-bold'>Your Notes</h1>
 
-        <div className='flex flex-wrap gap-5 mt-5 overflow-auto h-full'>
+        <div className='flex flex-wrap gap-5 mt-5 overflow-auto h-full justify-start '>
           {task.map((ele,idx) => {
-            return <div key={idx} className='h-52 w-40 bg-white rounded-2xl p-4 '>
-              <h2 className='text-3xl text-black font-bold '> {ele.title} </h2>
-              <p className='text-2xl text-gray-600 mt-3 font-medium '>{ele.detail}</p>
+            return <div key={idx} className='h-52 w-40 rounded-2xl p-4 bg-[url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS7qMZEJSG6vy2aOHZ7uuSF75vX7cOAgTl3sQ&s")] bg-cover'>
+              <h2 className='text-3xl text-black font-bold mt-2'> {ele.title} </h2>
+              <p className='text-xl text-gray-600 mt-2 font-medium '>{ele.detail}</p>
             </div>
           })}
         </div>
