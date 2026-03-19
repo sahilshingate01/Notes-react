@@ -1,75 +1,88 @@
-import React, { useState } from 'react'
-import { X } from 'lucide-react';
+import { useState } from 'react'
 
 const App = () => {
-  const [title, settitle] = useState('')
-  const [detail, setdetail] = useState('')
-  const [task, settask] = useState([])
 
-  const formHandler = (e) => {
+  const [title, setTitle] = useState('')
+  const [details, setDetails] = useState('')
+
+  const [task, setTask] = useState([])
+
+  const submitHandler = (e) => {
     e.preventDefault()
 
-    const copytask = [...task];
+    const copyTask = [...task];
 
-    copytask.push({ title, detail })
+    copyTask.push({ title, details })
 
-    settask(copytask)
-    console.log(copytask)
-    settitle('')
-    setdetail('')
+    setTask(copyTask)
+
+    setTitle('')
+    setDetails('')
   }
-  function deleteNote(idx){
-    const copytask = [...task]
-    copytask.splice(idx,1)
-    settask(copytask)
+
+
+  const deleteNote = (idx) => {
+    const copyTask = [...task];
+
+    copyTask.splice(idx, 1)
+
+    setTask(copyTask)
   }
+
   return (
-    <div className=' h-screen bg-black lg:flex  text-white p-10 '>
+    <div className='h-screen lg:flex bg-black text-white'>
 
       <form onSubmit={(e) => {
-        formHandler(e)
-      }} className='flex items-start flex-col p-10 gap-4 lg:w-1/2'>
+        submitHandler(e)
+      }} className='flex gap-4 lg:w-1/2 p-10 flex-col items-start'>
 
-        <h1 className=' text-5xl font-bold'>Add Notes</h1>
+        <h1 className='text-4xl mb-2 font-bold'>Add Notes</h1>
 
-        {/* title input */}
-
-        <input type="text"
-          placeholder='Enter Task Heading'
-          className=' px-5 py-2 border-2 rounded w-full outline-none font-medium'
+        {/* PEHLA INPUT FOR HEADING */}
+        <input
+          type="text"
+          placeholder='Enter Notes Heading'
+          className='px-5 w-full font-medium py-2 border-2 outline-none rounded '
           value={title}
-          onChange={(e) => settitle(e.target.value)}
+          onChange={(e) => {
+            setTitle(e.target.value)
+          }}
         />
 
-        {/* short notes for heading */}
-
-        <textarea type="text"
-          placeholder='Enter Details '
-          className=' px-5 py-2 border-2 rounded h-32 w-full outline-none flex flex-row font-medium'
-          value={detail}
-          onChange={(e) => { setdetail(e.target.value) }}
+        {/* DETAILED VALA INPUT  */}
+        <textarea
+          type="text"
+          className='px-5 w-full font-medium h-32 py-2 flex items-start flex-row border-2 outline-none  rounded '
+          placeholder='Write Details here'
+          value={details}
+          onChange={(e) => {
+            setDetails(e.target.value)
+          }}
         />
 
-        <button className=' bg-white text-black px-5 py-2 rounded w-full outline-none font-medium active:scale-95 cursor-pointer'>Add Note</button>
+        <button
+          className='bg-white active:scale-95 font-medium w-full outline-none  text-black px-5 py-2 rounded'
+        >
+          Add Note
+        </button>
 
       </form>
+      <div className='lg:w-1/2 lg:border-l-2  p-10'>
+        <h1 className='text-4xl font-bold'>Recent Notes</h1>
+        <div className='flex flex-wrap items-start justify-start gap-5 mt-6 h-[90%] overflow-auto'>
+          {task.map(function (elem, idx) {
 
-      <div className=' lg:border-l-2 p-10 lg:w-1/2 '>
-
-        <h1 className=' text-5xl font-bold'>Your Notes</h1>
-
-        <div className='flex flex-wrap gap-5 mt-5 overflow-auto h-full justify-start '>
-          {task.map((ele, idx) => {
-            return <div key={idx} className=' flex justify-between flex-col items-start h-52 w-40 relative rounded-2xl p-2 bg-[url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS7qMZEJSG6vy2aOHZ7uuSF75vX7cOAgTl3sQ&s")] bg-cover'>
-              <h2 className='text-3xl text-black font-bold mt-2'> {ele.title} </h2>
-              <p className='text-xl text-gray-700 mb-16'>{ele.detail}</p>
+            return <div key={idx} className=" flex justify-between flex-col items-start relative h-52 w-40 bg-cover rounded-xl text-black pt-9 pb-4 px-4 bg-[url('https://static.vecteezy.com/system/resources/previews/037/152/677/non_2x/sticky-note-paper-background-free-png.png')]">
+              <div>
+                <h3 className='leading-tight text-lg font-bold'>{elem.title}</h3>
+                <p className='mt-2 leading-tight text-xs font-semibold text-gray-600'>{elem.details}</p>
+              </div>
               <button onClick={() => {
                 deleteNote(idx)
-              }} className='bg-red-500 w-full text-white font-bold rounded active:scale-95 cursor-pointer '>Delete</button>
+              }} className='w-full cursor-pointer active:scale-95 bg-red-500 py-1 text-xs rounded font-bold text-white'>Delete</button>
             </div>
           })}
         </div>
-
       </div>
     </div>
   )
